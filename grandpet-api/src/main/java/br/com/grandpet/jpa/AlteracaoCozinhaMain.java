@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import br.com.grandpet.GrandpetApiApplication;
 import br.com.grandpet.domain.model.Cozinha;
+import br.com.grandpet.domain.repository.CozinhaRepository;
 
 public class AlteracaoCozinhaMain {
 
@@ -16,12 +17,12 @@ public class AlteracaoCozinhaMain {
 		ApplicationContext applicationContext = new SpringApplicationBuilder(GrandpetApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 		
 		Cozinha cozinha = new Cozinha();
 		cozinha.setId(1L);
 		cozinha.setNome("Brasileira");
 		
-		cadastroCozinha.salvar(cozinha);
+		cozinhaRepository.adicionar(cozinha);
 	}
 }

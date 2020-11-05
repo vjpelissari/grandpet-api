@@ -8,6 +8,7 @@ import java.util.List;
 
 import br.com.grandpet.GrandpetApiApplication;
 import br.com.grandpet.domain.model.Cozinha;
+import br.com.grandpet.domain.repository.CozinhaRepository;
 
 public class ConsultaCozinhaMain {
 
@@ -22,10 +23,10 @@ public class ConsultaCozinhaMain {
 		
 		// Com o trecho acima eh possivel pegar um Bean da minha aplicacao
 		// Pegando um Bean do tipo CadastroCozinha
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 		
-		List<Cozinha> cozinhas = cadastroCozinha.listar();
-		
+		List<Cozinha> cozinhas = cozinhaRepository.todas();
+				
 		for (Cozinha cozinha : cozinhas) {
 			System.out.println(cozinha.getNome());
 		}
