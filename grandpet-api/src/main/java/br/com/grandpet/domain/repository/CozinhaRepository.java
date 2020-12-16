@@ -5,7 +5,7 @@ import br.com.grandpet.domain.model.Cozinha;
 
 public interface CozinhaRepository {
 	
-	List<Cozinha> todas();
+	List<Cozinha> listar();
 
 	Cozinha porId(Long id);
 
