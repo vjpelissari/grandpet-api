@@ -7,7 +7,7 @@ public interface CozinhaRepository {
 	
 	List<Cozinha> listar();
 
-	Cozinha porId(Long id);
+	Cozinha buscar(Long id);
 
 	Cozinha adicionar(Cozinha cozinha);
 
