@@ -5,10 +5,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@JsonRootName("cozinha")
 @Data // lombok: Substitui o get, set, toSptring, equals e hashcode
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
