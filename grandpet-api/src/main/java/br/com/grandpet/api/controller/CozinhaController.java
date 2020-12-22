@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import br.com.grandpet.api.model.CozinhasXmlWrapper;
+import br.com.grandpet.domain.exception.EntidadeEmUsoException;
+import br.com.grandpet.domain.exception.EntidadeNaoEncontradaException;
 import br.com.grandpet.domain.model.Cozinha;
 import br.com.grandpet.domain.repository.CozinhaRepository;
 import br.com.grandpet.domain.service.CadastroCozinhaService;
@@ -55,7 +56,6 @@ public class CozinhaController {
 		if (cozinha != null) {
 			return ResponseEntity.ok(cozinha);
 		}
-		
 		return ResponseEntity.notFound().build();
     }
 	
@@ -85,17 +85,13 @@ public class CozinhaController {
 	@DeleteMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
 		try {
-			Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
-			
-			if (cozinha != null) {
-				cozinhaRepository.remover(cozinha);
-				
-				return ResponseEntity.noContent().build();
-			}
-			return ResponseEntity.notFound().build();
+			cadastroCozinha.excluir(cozinhaId);			
+	        return ResponseEntity.noContent().build();
 
-		} catch (DataIntegrityViolationException e) {
-			// Caso remova algo que está associado a restaurante
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.notFound().build();
+			
+		} catch (EntidadeEmUsoException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
 	}
