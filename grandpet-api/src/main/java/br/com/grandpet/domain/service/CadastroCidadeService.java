@@ -10,6 +10,7 @@ import br.com.grandpet.domain.exception.EntidadeNaoEncontradaException;
 import br.com.grandpet.domain.model.Cidade;
 import br.com.grandpet.domain.model.Estado;
 import br.com.grandpet.domain.repository.CidadeRepository;
+import br.com.grandpet.domain.repository.EstadoRepository;
 
 @Service
 public class CadastroCidadeService {
@@ -17,16 +18,18 @@ public class CadastroCidadeService {
 	@Autowired
 	private CidadeRepository cidadeRepository; 
 	
+	@Autowired
+	private EstadoRepository estadoRepository; 
+	
 	public Cidade salvar(Cidade cidade) {
 		 Long estadoId = cidade.getEstado().getId();
-         //Estado estado = estadoRepository.buscar(estadoId);
+         Estado estado = estadoRepository.buscar(estadoId);
          
-         //if (estado == null) {
-         //    throw new EntidadeNaoEncontradaException(
-         //        String.format("Não existe cadastro de estado com código %d", estadoId));
-         //}
-         
-         // cidade.setEstado(estado);
+         if (estado == null) {
+             throw new EntidadeNaoEncontradaException(
+                 String.format("Não existe cadastro de estado com código %d", estadoId));
+         }
+         cidade.setEstado(estado);
          
          return cidadeRepository.salvar(cidade);
 	}
